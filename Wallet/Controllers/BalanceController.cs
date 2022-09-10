@@ -25,6 +25,15 @@ namespace Wallet.Controllers
             return Json(userBalance);
         }
 
-       
+        [HttpPost]
+        public async Task<IActionResult> UpBalance([FromBody]SetBalanceViewModel setBalance)
+        {
+            if (setBalance is null) return Ok(400);
+            bool accession = await _balanceService.UpBalance(setBalance);
+            if (!accession) return Ok(new {statusCode = 404});
+            return Ok(200);
+        }
+        
+      
     }
 }
