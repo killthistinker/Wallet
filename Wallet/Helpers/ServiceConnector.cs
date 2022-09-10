@@ -21,6 +21,7 @@ namespace Wallet.Helpers
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBalanceService, BalanceService>();
             services.AddTransient<IPaymentsService, PaymentsService>();
+            services.AddTransient<IFiltrationService, FiltrationService>();
             return services;
         }
     }

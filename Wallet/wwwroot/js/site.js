@@ -116,7 +116,6 @@ $(document).ready(function () {
     $('#payment-form').submit(function (e) {
         e.preventDefault();
         var providerId = $('#provider').val();
-        var providerName = $('#provider').val();
         var props = $('#props').val();
         var paymentSum = $('#payment-sum').val();
         var paymentInformer = $('#payment-button');
@@ -125,7 +124,7 @@ $(document).ready(function () {
             sum: paymentSum,
             propsId: props
         }
-        console.log(addPaymentViewModel, providerName);
+        console.log(addPaymentViewModel);
         $.ajax({
             method: "POST",
             url: 'https://localhost:5001/payments/newpayment',
@@ -134,7 +133,7 @@ $(document).ready(function () {
             success: function (res) {
                 switch (res) {
                     case 200:
-                        paymentInformer.attr('data-content', `Платеж поставщику ${providerName} Совершен на сумму: ${paymentSum}`);
+                        paymentInformer.attr('data-content', `Платеж  совершен на сумму: ${paymentSum}`);
                         paymentInformer.popover('show');
                         break;
                     case 406:
@@ -163,4 +162,29 @@ $(document).ready(function () {
         });
 
     });
+    // $('#filtration-form').submit(function (e) {
+    //     e.preventDefault();
+    //   
+    //     var dateTo = $('#date-to').val();
+    //     var dateFrom = $('#date-from').val();
+    //   
+    //     var filtrationViewModel = {
+    //         dateTo: dateTo,
+    //         dateFrom: dateFrom,
+    //     }
+    //     console.log(filtrationViewModel);
+    //     $.ajax({
+    //         method: "GET",
+    //         url: 'https://localhost:5001/transactions/filtration',
+    //         data: {dateFrom: dateFrom, dateTo: dateTo},
+    //         contentType: 'application/json',
+    //         success: function (res) {
+    //             console.log(res);
+    //            $('#table-body').empty().append(res);
+    //             }
+
+        });
+
+    });
+
 })

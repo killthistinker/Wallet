@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Wallet.Models;
@@ -7,6 +8,7 @@ using Wallet.Services.Abstractions;
 
 namespace Wallet.Controllers
 {
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly IPaymentsService _service;

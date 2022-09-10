@@ -11,6 +11,17 @@
 }
 else
 {
+    <form id="filtration-form">
+         <div class="mb-3">
+                        <label for="date-from" class="form-label">Дата от</label>
+                        <input asp-for="@Model.Model.DateFrom" type="date" class="form-control" id="date-from" value="">
+                    </div>
+        <div class="mb-3">
+            <label for="date-to" class="form-label">Дата до</label>
+            <input asp-for="@Model.Model.DateTo" type="date" class="form-control" id="date-to" value="">
+        </div>
+        <button asp-action="Index" asp-controller="Transactions" id="filtration-button" type="submit" class="btn btn-warning">Фильтровать</button>
+    </form>
     <table class="table">
         <thead>
         <tr>
@@ -22,17 +33,9 @@ else
             <th scope="col">Отправитель</th>
         </tr>
         </thead>
-        <tbody>
-        @foreach (var transaction in Model.Transactions)
-        {
-            <tr>
-                <th>@transaction.Id</th>
-                <td>@transaction.Type</td>
-                <td>@transaction.Sum</td>
-                <td>@transaction.TransactionDate</td>
-                <td>@transaction.Addressee</td>
-                <td>@transaction.Sender</td>
-            </tr>
+        <tbody id="table-body">
+        @{
+         await Html.RenderPartialAsync( "PartialViews/TransactionsPartialView", Model.Transactions );
         }
         </tbody>
     </table>

@@ -23,7 +23,8 @@ namespace Wallet.Services
             
             TransactionsViewModel model = new TransactionsViewModel()
             {
-                Transactions = transactions
+                Transactions = transactions,
+                Model = new FiltrationViewModel()
             };
             return model;
         }

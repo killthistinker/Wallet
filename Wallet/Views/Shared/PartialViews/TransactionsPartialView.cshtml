@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Transaction>
+@foreach (var transaction in Model)
+{
+    <tr>
+        <th>@transaction.Id</th>
+        <td>@transaction.Type</td>
+        <td>@transaction.Sum</td>
+        <td>@transaction.TransactionDate</td>
+        <td>@transaction.Addressee</td>
+        <td>@transaction.Sender</td>
+    </tr>
+}
