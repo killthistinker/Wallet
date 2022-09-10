@@ -1,0 +1,46 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Домашняя страница";
+}
+
+<div class="text-center">
+    @if (Model != null)
+    {
+        <h1 class="display-4 mt-5" id="balance-title">Ваш баланс : @Model.UserBalance</h1>
+        <div class="form-container d-flex flex-row justify-content-center align-items-center">
+            <form class="d-flex flex-column align-items-stretch form-balance-up" id="form-balance-user">
+                <div class="mb-3">
+                    <label for="user-id" class="form-label">Введите id аккаунта</label>
+                    <input type="text" class="form-control" id="user-id" placeholder="id аккаунта">
+                </div>
+                <div class="mb-3">
+                    <label for="balance-data" class="form-label">Введите сумму для пополнения</label>
+                    <input type="text" class="form-control" id="balance-data" placeholder="Введите сумму">
+                </div>
+                <button class="btn btn-outline-success" id="balance-up" type="submit" data-toggle="popover" data-placement="bottom" data-content="Vivamus">Пополнить баланс</button>
+            </form>
+            </div>
+    }
+    else
+    {
+        <div>
+            <h1 class="check-title">Вы не авторизованы в системе</h1>
+            <h2 class="mt-5">Заполните форму для пополнения баланса</h2>
+        </div>
+        <div class="form-container d-flex flex-row justify-content-center align-items-center">
+            <form class="d-flex flex-column align-items-stretch form-balance-up" id="form-balance">
+                <div class="mb-3">
+                    <label for="user-id" class="form-label">Введите id аккаунта</label>
+                    <input type="text" class="form-control" id="user-id" placeholder="id аккаунта">
+                </div>
+                <div class="mb-3">
+                    <label for="balance-data" class="form-label">Введите сумму для пополнения</label>
+                    <input type="text" class="form-control" id="balance-data" placeholder="Введите сумму">
+                </div>
+                <button class="btn btn-outline-success" id="balance-up" type="submit" data-toggle="popover" data-placement="bottom" data-content="Vivamus">Пополнить баланс</button>
+            </form>
+        </div>
+    }
+</div>
+
+
