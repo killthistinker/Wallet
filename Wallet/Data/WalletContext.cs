@@ -20,13 +20,23 @@ namespace Wallet.Data
             builder.Entity<ServiceProvider>().HasData(new ServiceProvider
                 {
                     Id = 1,
-                    Name = "Tele2"
+                    Name = "Интернет"
                 },
                 new ServiceProvider
                 {
                     Id = 2,
-                    Name = "Beeline"
-                });
+                    Name = "Комунальные услуги"
+                },
+                new ServiceProvider
+                {
+                    Id = 3,
+                    Name = "Телефон"
+                },
+            new ServiceProvider
+            {
+                Id = 4,
+                Name = "Steam"
+            });
             builder.Entity<UserInfo>().HasData(new UserInfo
                 {
                     Id = 1,
@@ -40,8 +50,21 @@ namespace Wallet.Data
                     Balance = 0,
                     PropsId = 54321,
                     ServiceProviderId = 2
+                },
+                new UserInfo
+                {
+                    Id = 3,
+                    Balance = 0,
+                    PropsId = 33445,
+                    ServiceProviderId = 3
+                },
+                new UserInfo
+                {
+                    Id = 4,
+                    Balance = 0,
+                    PropsId = 444888,
+                    ServiceProviderId = 4
                 });
-
         }
     }
 }
