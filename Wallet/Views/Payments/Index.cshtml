@@ -1,0 +1,30 @@
+﻿@model PaymentViewModel
+
+@{
+    ViewBag.Title = "Платежи";
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <h1 class="mt-5">Оплата услуг</h1>
+    <div class="form-container d-flex flex-row justify-content-center align-items-center mt-5">
+        <form id="payment-form" class="d-flex flex-column align-items-stretch">
+            <select class="form-select" aria-label="Выберите поставщика услуг" id="provider">
+                @foreach (var provider in Model.ServiceProviders)
+                {
+                    <option value="@provider.Id">@provider.Name</option>
+                }
+            </select>
+            <div class="mb-3">
+                <label for="props" class="form-label">Реквизиты</label>
+                <input type="text" class="form-control" id="props" placeholder="Введите ваши реквизиты">
+            </div>
+            <div class="mb-3">
+                <label for="payment-sum" class="form-label">Сумма</label>
+                <input type="text" class="form-control" id="payment-sum" placeholder="Введите сумму">
+            </div>
+            <button class="btn btn-outline-success" type="submit" id="payment-button" data-toggle="popover" data-placement="bottom" data-content="Vivamus">Оплатить</button>
+        </form>
+    </div>
+}
