@@ -23,7 +23,7 @@ namespace Wallet.Services
             if (user is null) return -1;
             return user.Balance;
         }
-public async Task<bool> UpBalance(SetBalanceViewModel setBalance)
+        public async Task<bool> UpBalance(SetBalanceViewModel setBalance)
         {
             try
             {
@@ -41,7 +41,53 @@ public async Task<bool> UpBalance(SetBalanceViewModel setBalance)
             }
         }
 
-      
+        public async Task<int> UserTransaction(SetBalanceViewModel setBalance, int userId)
+        {
+            if (setBalance.Balance <= 0) return (int)StatusCodes.NegativeBalance;
+            
+            var userSender = await _repository.GetFirstOrDefaultByIdAsync(userId);
+            if (userSender is null) return (int) StatusCodes.UserNotFound;
+            
+            if (userSender.AuthorizationId == setBalance.UserId) return (int)StatusCodes.ReplenishYourself;
+            
+            var userAddressee = await _repository.GetFirstOrDefaultByUserIdAsync(setBalance.UserId);
+            if (userAddressee is null) return (int) StatusCodes.UserNotFound;
+           
+            if (userSender.Balance < setBalance.Balance) return (int) StatusCodes.InsufficientFunds;
+            
+            userSender.Balance -= setBalance.Balance;
+            userAddressee.Balance += setBalance.Balance;
+            
+            AddTransaction(userSender, userAddressee, setBalance.Balance);
+            _repository.Update(userSender);
+            _repository.Update(userAddressee);
+            await _repository.SaveAsync();
+            return (int) StatusCodes.Success;
+        }
+        
+        public void AddTransaction(User userSender, User userAddressee, decimal balance)
+        {
+            Transaction senderTransaction = new Transaction
+            {
+                Sum = balance,
+                Type = "Перевод",
+                Sender = userSender.AuthorizationId.ToString(),
+                Addressee = userAddressee.AuthorizationId.ToString(),
+                TransactionDate = DateTime.Now,
+                CurrentUserId = userSender.Id
+            };
+            Transaction addresseeTransaction = new Transaction
+            {
+                Sum = balance,
+                Type = "Перевод",
+                Sender = userSender.AuthorizationId.ToString(),
+                Addressee = userAddressee.AuthorizationId.ToString(),
+                TransactionDate = DateTime.Now,
+                CurrentUserId = userAddressee.Id
+            };
+            userSender.Transactions.Add(senderTransaction);
+            userAddressee.Transactions.Add(addresseeTransaction);
+        }
         
     }
 }
