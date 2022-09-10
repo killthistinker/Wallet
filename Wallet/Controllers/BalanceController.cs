@@ -34,6 +34,14 @@ namespace Wallet.Controllers
             return Ok(200);
         }
         
-      
+        [HttpPost]
+        public async Task<IActionResult> UserTransaction([FromBody] SetBalanceViewModel setBalance)
+        {
+            if (setBalance is null) return Ok(400);
+            int.TryParse(_userManager.GetUserId(User), out int userId);
+            
+            int statusCode = await _balanceService.UserTransaction(setBalance, userId);
+            return Ok(statusCode);
+        }
     }
 }
