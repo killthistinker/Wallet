@@ -148,6 +148,38 @@ namespace Wallet.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("Wallet.Models.ServiceProvider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceProviders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Balance = 0m,
+                            Name = "Tele2"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Balance = 0m,
+                            Name = "Beeline"
+                        });
+                });
+
             modelBuilder.Entity("Wallet.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -252,6 +284,45 @@ namespace Wallet.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Wallet.Models.UserInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("PropsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ServiceProviderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceProviderId");
+
+                    b.ToTable("UserInfos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Balance = 0m,
+                            PropsId = 12345,
+                            ServiceProviderId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Balance = 0m,
+                            PropsId = 54321,
+                            ServiceProviderId = 2
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Wallet.Models.Role", null)
@@ -312,6 +383,22 @@ namespace Wallet.Migrations
                         .IsRequired();
 
                     b.Navigation("CurrentUser");
+                });
+
+            modelBuilder.Entity("Wallet.Models.UserInfo", b =>
+                {
+                    b.HasOne("Wallet.Models.ServiceProvider", "ServiceProvider")
+                        .WithMany("UsersInfos")
+                        .HasForeignKey("ServiceProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ServiceProvider");
+                });
+
+            modelBuilder.Entity("Wallet.Models.ServiceProvider", b =>
+                {
+                    b.Navigation("UsersInfos");
                 });
 
             modelBuilder.Entity("Wallet.Models.User", b =>
