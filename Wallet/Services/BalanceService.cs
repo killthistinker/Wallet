@@ -23,7 +23,25 @@ namespace Wallet.Services
             if (user is null) return -1;
             return user.Balance;
         }
+public async Task<bool> UpBalance(SetBalanceViewModel setBalance)
+        {
+            try
+            {
+                if (setBalance.Balance <= 0) return false;
+                var user = await _repository.GetFirstOrDefaultByUserIdAsync(setBalance.UserId);
+                if (user is null) return false;
+                user.Balance += setBalance.Balance;
+                _repository.Update(user);
+                await _repository.SaveAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
 
+      
         
     }
 }
